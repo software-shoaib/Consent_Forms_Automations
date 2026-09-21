@@ -550,9 +550,27 @@ class ConsentFormCompleteWorkflow:
         # Convert numpy int64 keys to regular Python int for JSON serialization
         json_results = {str(k): v for k, v in self.results.items()}
         
+        # Convert Pandas Timestamps to JSON-serializable format
+        json_results = self._convert_timestamps_to_json(json_results)
+        
         with open(json_file, 'w', encoding='utf-8') as f:
             json.dump(json_results, f, indent=2, ensure_ascii=False)
         print(f"✓ JSON results saved to: {json_file}")
+    
+    def _convert_timestamps_to_json(self, obj):
+        """
+        Recursively convert Pandas Timestamp objects to ISO format strings for JSON serialization
+        """
+        if isinstance(obj, pd.Timestamp):
+            return obj.isoformat()
+        elif isinstance(obj, dict):
+            return {key: self._convert_timestamps_to_json(value) for key, value in obj.items()}
+        elif isinstance(obj, list):
+            return [self._convert_timestamps_to_json(item) for item in obj]
+        elif isinstance(obj, tuple):
+            return tuple(self._convert_timestamps_to_json(item) for item in obj)
+        else:
+            return obj
     
     def _add_hyperlinks_to_sheet(self, worksheet, dataframe, column_name):
         """Add Excel hyperlinks to a specific column in a worksheet"""

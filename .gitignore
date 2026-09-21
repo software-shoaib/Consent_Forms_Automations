@@ -1,0 +1,33 @@
+# Virtual environments
+venv/
+.venv/
+
+# Generated output folders
+OUTPUT/
+**/OUTPUT/
+*T_OUTPUT/
+**/*OUTPUT*/
+
+# Excel test/sample/output files
+*.xlsx
+*.xls
+*.xlsm
+
+# Python cache
+__pycache__/
+*.py[cod]
+
+# Environment files
+.env
+.env.*
+
+# IDE/editor files
+.vscode/
+.idea/
+
+# OS files
+Thumbs.db
+.DS_Store
+
+# Ignore all directories
+*/
